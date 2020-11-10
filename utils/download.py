@@ -14,13 +14,6 @@ except ImportError:
     from urllib2 import URLError
     from urllib import urlretrieve
 
-RESOURCES = [
-    'train-images-idx3-ubyte.gz',
-    'train-labels-idx1-ubyte.gz',
-    't10k-images-idx3-ubyte.gz',
-    't10k-labels-idx1-ubyte.gz',
-]
-
 
 def report_download_progress(chunk_number, chunk_size, file_size):
     if file_size != -1:
@@ -61,7 +54,7 @@ def unzip(zipped_path, quiet):
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Download the MNIST dataset from the internet')
+        description='Download the CelebA dataset from the internet')
     parser.add_argument(
         '-d', '--destination', default='.', help='Destination directory')
     parser.add_argument(
@@ -75,14 +68,12 @@ def main():
         os.makedirs(options.destination)
 
     try:
-        for resource in RESOURCES:
-            path = os.path.join(options.destination, resource)
-            url = 'http://yann.lecun.com/exdb/mnist/{}'.format(resource)
-            download(path, url, options.quiet)
-            unzip(path, options.quiet)
+        path = os.path.join(options.destination, 'celebA')
+        url = 'https://s3.amazonaws.com/video.udacity-data.com/topher/2018/November/5be7eb6f_processed-celeba-small/processed-celeba-small.zip'
+        download(path, url, options.quiet)
+        unzip(path, options.quiet)
     except KeyboardInterrupt:
         print('Interrupted')
-
 
 if __name__ == '__main__':
     main()
