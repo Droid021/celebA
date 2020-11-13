@@ -120,5 +120,21 @@ int main(int argc, const char* argv[]){
         torch::data::DataLoaderOptions().batch_size(kBatchSize).workers(2)
     );
 
+    torch::optim::Adam generator_optim(
+        generator-> parameters(),
+        torch::optim::AdamOptions(2e-4);
+    );
+    torch::optim::Adam discriminator_optim(
+        discriminator-> parameters(),
+        torch::optim::AdamOptions(2e-4)
+    );
+
+    // restore from checkpoint
+    if (kRestoreFromCheckpoint) {
+        torch::load(generator, "gen-checkpoint.pt");
+        torch::load(generator_optim, "gen-optim.pt");
+        torch::load(discriminator, "disc-checkpoint.pt");
+        torch::load(discriminator_optim, "disc-optim.pt");
+    }
     
 };
