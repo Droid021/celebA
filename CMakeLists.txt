@@ -7,7 +7,7 @@ option(DOWNLOAD_CELEBA "Download the CELEBA dataset from the internet" ON)
 if (DOWNLOAD_CELEBA)
   message(STATUS "Downloading CELEBA dataset")
   execute_process(
-    COMMAND python ${CMAKE_CURRENT_LIST_DIR}/../tools/download.py
+    COMMAND python ${CMAKE_CURRENT_LIST_DIR}/utils/download.py
       -d ${CMAKE_BINARY_DIR}/data
     ERROR_VARIABLE DOWNLOAD_ERROR)
   if (DOWNLOAD_ERROR)

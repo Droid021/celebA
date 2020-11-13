@@ -186,8 +186,8 @@ int main(int argc, const char *argv[])
 
                 // save sample generated images
                 torch::Tensor samples = generator->forward(torch::randn({kSamplesPerCheckpoint, kNoiseSize, 1, 1}, device));
-                torch::save((samples +1.0 )/2.0, 
-                        torch::str("dcgan-", checkpoint_counter, ".pt"));
+                torch::save((samples + 1.0) / 2.0,
+                            torch::str("dcgan-", checkpoint_counter, ".pt"));
                 std::cout << "\n-> checkpoint " << ++checkpoint_counter << '\n';
             }
         }
