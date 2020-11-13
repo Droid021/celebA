@@ -65,3 +65,45 @@ struct GeneratorImpl : nn::Module {
     nn::BatchNorm2d batch_norm1, batch_norm2, batch_norm3, batch_norm4;
 
 };
+
+TORCH_MODULE(Generator);
+
+int main(int argc, const char* argv[]){
+    torch::manual_seed(42);
+    
+    //Device
+    torch::Device device(torch::kCPU)
+    if (torch::cuda::is_available()) {
+        std::cout << "Training on Cuda" << std::endl;
+        device = torch::Device(torch::kCUDA);
+    }
+    Generator generator(kNoiseSize);
+    generator -> to(device)
+
+    // Discriminator
+    nn::Sequential discriminator(
+        // layer 1
+        nn::Conv2d(
+            nn::Conv2dOptions(1,64,4).stride(2).padding(1).bias(false)
+        ),
+        nn::LeakyReLU(nn::LeakyReLUOptions().negative_slope(0.2)),
+        // layer 2
+        nn::Conv2d(
+            nn::Conv2dOptions(64,128,4).stride(2).padding(1).bias(false)
+        ),
+        nn::BatchNorm2d(128),
+        nn::LeakyRELU(nn::LeakyReLUOptions().negative_slope(0.2)),
+        // layer 3
+        nn::Conv2d(
+            nn::Conv2dOptions(128,256,4).stride(2).padding(1).bias(false)
+        ),
+        nn::BatchNorm2d(256),
+        nn::LeakyRELU(nn::LeakyRELUOptions().negative_slope(0.2)),
+        // layer 4
+        nn::Conv2d(
+            nn::Conv2dOptions(256, 1,3).stride(1).padding(0).bias(false)
+        ),
+        nn::Sigmoid()
+    );
+    discriminator -> to(device);
+};
