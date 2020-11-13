@@ -106,4 +106,19 @@ int main(int argc, const char* argv[]){
         nn::Sigmoid()
     );
     discriminator -> to(device);
+
+    std::vector<double> norm_mean = {0.485, 0.456, 0.406};
+    std::vector<double> norm_std = {0.229, 0.224, 0.225};
+    // Load Data
+    auto dataset = torch::data::datasets::CELEBA(kDataFolder)
+                    .map(torch::data::transforms::Normalize<>(norm_mean, norm_std))
+                    .map(torch::data::transforms::Stack<>());
+    const int64_t = batches_per_epoch = std::ceil(dataset.size().value() / static_cast<double>(kBatchSize));
+    // Dataloader
+    auto dataloader = torch::data::make_data_loader(
+        std::move(dataset),
+        torch::data::DataLoaderOptions().batch_size(kBatchSize).workers(2)
+    );
+
+    
 };
