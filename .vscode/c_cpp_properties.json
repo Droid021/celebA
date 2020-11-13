@@ -3,7 +3,7 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/libtorch/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
