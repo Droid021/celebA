@@ -61,5 +61,7 @@ struct GeneratorImpl : nn::Module {
         x = torch::tanh(conv4(x));
         return x;
     }
+    nn::ConvTranspose2d conv1, conv2, conv3, conv4;
+    nn::BatchNorm2d batch_norm1, batch_norm2, batch_norm3, batch_norm4;
 
-}
+};
